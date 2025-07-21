@@ -1,64 +1,117 @@
-# 🎸 Analisis Sistem Booking Studio Musik
+# Analisis Sistem Katalog Motor Custom (Laravel + Filament v3, Api Swagger BoilerPlate)
 
-## 1. Latar Belakang Masalah
-Banyak studio musik masih mengelola jadwal penyewaan secara manual melalui buku catatan atau aplikasi chat. Masalah yang sering muncul meliputi:
-- Jadwal yang bertabrakan (overlap)
-- Kesalahan pencatatan waktu dan pembayaran
-- Tidak ada histori dan dokumentasi digital
+## 1. Pendahuluan
 
-Diperlukan sistem digital untuk membantu pencatatan booking, manajemen pelanggan, dan penjadwalan yang rapi.
+Sistem ini dibangun untuk mengelola data kendaraan motor custom, seperti tipe chopper, cafe racer, dan scrambler. Fungsinya sebagai katalog sekaligus sebagai basis sistem komunitas dan informasi motor custom di Indonesia. Sistem ini dibangun menggunakan Laravel 12 dan Filament v3, serta telah diintegrasikan dengan dokumentasi API menggunakan Swagger.
 
 ---
 
 ## 2. Tujuan Sistem
-Membangun sistem berbasis web dengan Laravel 12 + Filament v3 yang memungkinkan:
-- Pelanggan dapat melihat jadwal dan melakukan booking secara online
-- Admin dapat mengelola jadwal, data pelanggan, dan studio
-- Sistem menyediakan API dan dokumentasinya melalui Swagger agar mudah dikembangkan lebih lanjut
+
+- Menyediakan katalog digital untuk motor custom.
+- Mempermudah pengguna dan komunitas untuk menemukan motor sesuai kategori, tipe, dan tahun.
+- Menyediakan API RESTful sebagai integrasi lintas platform (mobile/web).
 
 ---
 
-## 3. Manfaat Sistem
-- **Untuk Admin**: Mempermudah pengelolaan jadwal dan data pelanggan
-- **Untuk Pelanggan**: Booking lebih mudah, kapan saja dan transparan
-- **Untuk Developer**: Sistem fleksibel untuk ditambahkan fitur baru seperti pembayaran atau notifikasi, dan dokumentasi API Swagger mempermudah integrasi
+## 3. Struktur Database
+
+### Tabel: `informasi_kendaraans`
+
+| Kolom            | Tipe Data | Keterangan                                                  |
+|------------------|-----------|-------------------------------------------------------------|
+| `id`             | BIGINT    | Primary key, auto increment                                |
+| `nama_kendaraan` | VARCHAR   | Nama dari kendaraan motor custom                           |
+| `merk`           | VARCHAR   | Merek kendaraan (Yamaha, Honda, dll)                       |
+| `tipe`           | VARCHAR   | Tipe motor (Cafe Racer, Chopper, Scrambler, dll)           |
+| `tahun`          | INTEGER   | Tahun produksi kendaraan                                    |
+| `warna`          | VARCHAR   | Warna dominan motor                                         |
+| `deskripsi`      | TEXT      | Penjelasan atau fitur tambahan motor (nullable)            |
+| `gambar`         | VARCHAR   | Path lokasi file gambar motor (nullable)                   |
+| `created_at`     | TIMESTAMP | Timestamp pembuatan data                                    |
+| `updated_at`     | TIMESTAMP | Timestamp update data                                       |
 
 ---
 
-## 4. Ruang Lingkup Sistem
-- Aplikasi hanya digunakan untuk manajemen penyewaan studio musik
-- Sistem memiliki dua role: admin dan pelanggan
-- Belum mencakup pembayaran otomatis (fitur lanjutan)
-- Hanya mencakup 1 studio (bukan multi-cabang)
+## 4. Model: `InformasiKendaraan`
+
+Model ini mewakili tabel `informasi_kendaraans` di database. Properti `$fillable` digunakan agar data dapat dimasukkan secara massal (mass assignment) saat menggunakan method `create()` atau `update()`.
+
+### Keunggulan:
+
+- **Mass Assignment Safety**: Mencegah serangan injection yang bisa merusak data.
+- **Simple & Clean**: Model hanya berisi logika dasar data tanpa relasi rumit (saat ini).
 
 ---
 
-## 5. Kebutuhan Fungsional
-- Login dan registrasi user
-- Manajemen data studio (CRUD)
-- Booking jadwal studio oleh user
-- Validasi agar jadwal tidak bertabrakan
-- Riwayat booking untuk user
-- API endpoint untuk integrasi frontend / mobile
-- Dokumentasi API menggunakan **Swagger UI** via `l5-swagger` Laravel
+## 5. Seeder: `InformasiKendaraanSeeder`
+
+Seeder digunakan untuk membuat data dummy awal ke dalam tabel `informasi_kendaraans`. Data ini bisa digunakan untuk kebutuhan testing awal aplikasi.
+
+### Contoh Data:
+- Custom Cafe Racer X (Yamaha)
+- Chopper Thunder (Honda)
+- Scrambler Adventurer (Kawasaki)
+
+### Keunggulan:
+- **Praktis untuk testing frontend & API**
+- **Menampilkan variasi data untuk tiap tipe motor**
 
 ---
 
-## 6. Kebutuhan Non-Fungsional
-- Framework: Laravel 12
-- Admin Panel: Filament v3
-- Frontend: Blade (atau Filament Page)
-- Database: MySQL
-- Deployment: GitHub Repository
-- Dokumentasi API: Swagger UI (dengan package `l5-swagger`)
+## 6. API & Swagger Integration
 
----
+Swagger digunakan untuk mendokumentasikan endpoint RESTful API agar mudah dipahami oleh frontend developer atau tim lain.
 
-## 7. Swagger API Integration
-Untuk memudahkan developer mengonsumsi API, dokumentasi dibangun menggunakan **Swagger UI**, yang dihasilkan otomatis dari komentar di controller Laravel menggunakan anotasi `@OA`.
+### Contoh Endpoint:
+```http
+GET /api/informasi-kendaraan
 
-Swagger endpoint dapat diakses melalui:
-Swagger ini membantu dokumentasi otomatis untuk:
-- Endpoint studio
-- Endpoint booking
-- Endpoint login dan register
+
+### Manfaat Swagger :
+
+- Interaktif: Bisa langsung mencoba API dari browser.
+- Terstandarisasi: Developer dapat memahami struktur response & parameter secara jelas.
+- Profesional: Memudahkan presentasi atau kerja tim antar divisi.
+
+### Boiler Plate dan Arsitektrur
+
+Project ini dibangun menggunakan boilerplate Laravel dengan modul API yang sudah terpisah. Ini membuat pengelolaan antar modul (API, Web, Filament) menjadi lebih rapi.
+
+app/
+├── Models/
+├── Http/
+│   ├── Controllers/
+│   │   └── Api/
+│   │   └── Web/
+├── Filament/Resources/
+routes/
+├── api.php
+├── web.php
+
+### Keuntungan 
+
+- Modular dan scalable.
+- Mudah dikembangkan ke fitur komunitas, booking studio, katalog part, dll.
+
+### Keungulan Aplikasi
+
+| Aspek                       | Keuntungan                                                             |
+| --------------------------- | ---------------------------------------------------------------------- |
+| Laravel + Filament          | CRUD admin cepat & rapi                                                |
+| Swagger                     | Dokumentasi API modern & lengkap                                       |
+| Seeder + Gambar             | Tampilan katalog langsung menarik sejak awal                           |
+| Struktur Clean Architecture | Memudahkan scaling ke fitur lanjutan seperti forum, komunitas, booking |
+| Desain Modular              | Web dan API dipisah untuk fleksibilitas frontend                       |
+
+### Rencana Pengembangan Lanjutan
+
+- Menambahkan relasi ke kategori/tag motor.
+- Menyediakan fitur upload gambar dari dashboard admin.
+- Menyediakan endpoint API detail motor.
+- Membuat fitur komunitas diskusi, rating motor, dan booking studio.
+
+### Penutup
+
+Sistem Katalog Motor Custom ini telah memenuhi kebutuhan dasar untuk pengelolaan data motor custom dan siap dikembangkan menjadi platform komunitas yang lebih lengkap. Dengan fondasi Laravel, Filament, Swagger, dan struktur bersih, sistem ini dapat menjadi dasar yang kuat untuk pengembangan lanjutan dalam industri otomotif custom.
+
