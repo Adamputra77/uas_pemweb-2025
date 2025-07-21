@@ -1,31 +1,303 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "API Booking Studio Musik",
-        "description": "Dokumentasi Swagger untuk API Booking Studio Musik",
+        "title": "My API",
+        "description": "This Is API Documentation for My Application",
+        "termsOfService": "https://uas_pemweb.test/terms",
+        "contact": {
+            "name": "API Support",
+            "email": "support@example.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
         "version": "1.0.0"
     },
+    "servers": [
+        {
+            "url": "https://uas_pemweb.test",
+            "description": "Local API Server"
+        }
+    ],
     "paths": {
-        "/api": {},
-        "/api/studios": {
+        "/api/informasi-kendaraan": {
             "get": {
                 "tags": [
-                    "Studios"
+                    "InformasiKendaraan"
                 ],
-                "summary": "Menampilkan semua data studio",
-                "operationId": "67f9e2ca903eb3cc7edadde81b4873a5",
+                "summary": "Ambil semua data motor custom",
+                "operationId": "a4396d0d3ddd3cb4364db199f7a0e2e0",
                 "responses": {
                     "200": {
-                        "description": "Berhasil menampilkan data studio"
+                        "description": "Berhasil mengambil data"
                     }
-                }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "InformasiKendaraan"
+                ],
+                "summary": "Simpan data motor custom baru",
+                "operationId": "5e480aabfe7cedf1296c6efd87ae14f7",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nama_kendaraan",
+                                    "merk",
+                                    "tipe",
+                                    "tahun",
+                                    "warna"
+                                ],
+                                "properties": {
+                                    "nama_kendaraan": {
+                                        "type": "string",
+                                        "example": "Motor Custom 1"
+                                    },
+                                    "merk": {
+                                        "type": "string",
+                                        "example": "Honda"
+                                    },
+                                    "tipe": {
+                                        "type": "string",
+                                        "example": "Cafe Racer"
+                                    },
+                                    "tahun": {
+                                        "type": "integer",
+                                        "example": 2023
+                                    },
+                                    "warna": {
+                                        "type": "string",
+                                        "example": "Merah"
+                                    },
+                                    "deskripsi": {
+                                        "type": "string",
+                                        "example": "Motor custom bergaya klasik"
+                                    },
+                                    "gambar": {
+                                        "type": "string",
+                                        "example": "motor1.jpg"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Data berhasil disimpan"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/informasi-kendaraan/{id}": {
+            "get": {
+                "tags": [
+                    "InformasiKendaraan"
+                ],
+                "summary": "Ambil detail motor custom berdasarkan ID",
+                "operationId": "a73239fb01025243b570fb561402553f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Berhasil mengambil data"
+                    },
+                    "404": {
+                        "description": "Data tidak ditemukan"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "InformasiKendaraan"
+                ],
+                "summary": "Update data motor custom",
+                "operationId": "e4253919922cb19043a7e01f915bc118",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nama_kendaraan": {
+                                        "type": "string",
+                                        "example": "Motor Custom Update"
+                                    },
+                                    "merk": {
+                                        "type": "string",
+                                        "example": "Yamaha"
+                                    },
+                                    "tipe": {
+                                        "type": "string",
+                                        "example": "Scrambler"
+                                    },
+                                    "tahun": {
+                                        "type": "integer",
+                                        "example": 2024
+                                    },
+                                    "warna": {
+                                        "type": "string",
+                                        "example": "Hitam"
+                                    },
+                                    "deskripsi": {
+                                        "type": "string",
+                                        "example": "Deskripsi update"
+                                    },
+                                    "gambar": {
+                                        "type": "string",
+                                        "example": "motor_update.jpg"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Data berhasil diupdate"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "InformasiKendaraan"
+                ],
+                "summary": "Hapus data motor custom",
+                "operationId": "08b2793858f00dcca5025a5c56d0ae8d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Data berhasil dihapus"
+                    }
+                },
+                "security": [
+                    {
+                        "ApiKeyAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "InformasiKendaraan": {
+                "title": "InformasiKendaraan",
+                "required": [
+                    "nama_kendaraan",
+                    "merk",
+                    "tipe",
+                    "tahun",
+                    "warna"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "nama_kendaraan": {
+                        "type": "string",
+                        "example": "Motor Custom 1"
+                    },
+                    "merk": {
+                        "type": "string",
+                        "example": "Honda"
+                    },
+                    "tipe": {
+                        "type": "string",
+                        "example": "Cafe Racer"
+                    },
+                    "tahun": {
+                        "type": "integer",
+                        "example": 2023
+                    },
+                    "warna": {
+                        "type": "string",
+                        "example": "Merah"
+                    },
+                    "deskripsi": {
+                        "type": "string",
+                        "example": "Motor custom bergaya klasik"
+                    },
+                    "gambar": {
+                        "type": "string",
+                        "example": "motor1.jpg"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "ApiKeyAuth": {
+                "type": "apiKey",
+                "name": "X-API-KEY",
+                "in": "header"
             }
         }
     },
     "tags": [
         {
-            "name": "Studios",
-            "description": "Studios"
+            "name": "InformasiKendaraan",
+            "description": "API untuk data motor custom"
         }
     ]
 }
