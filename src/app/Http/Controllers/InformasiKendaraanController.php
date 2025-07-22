@@ -44,7 +44,8 @@ class InformasiKendaraanController extends Controller
      *             @OA\Property(property="tahun", type="integer", example=2023),
      *             @OA\Property(property="warna", type="string", example="Merah"),
      *             @OA\Property(property="deskripsi", type="string", example="Motor custom bergaya klasik"),
-     *             @OA\Property(property="gambar", type="string", example="motor1.jpg")
+     *             @OA\Property(property="gambar", type="string", example="motor1.jpg"),
+     *             @OA\Property(property="komunitas_id", type="integer", example=1)
      *         )
      *     ),
      *     @OA\Response(response=201, description="Data berhasil disimpan")
@@ -60,6 +61,7 @@ class InformasiKendaraanController extends Controller
             'warna' => 'required|string',
             'deskripsi' => 'nullable|string',
             'gambar' => 'nullable|string',
+            'komunitas_id' => 'nullable|exists:komunitas,id',
         ]);
 
         $motor = InformasiKendaraan::create($data);
@@ -98,7 +100,8 @@ class InformasiKendaraanController extends Controller
      *             @OA\Property(property="tahun", type="integer", example=2024),
      *             @OA\Property(property="warna", type="string", example="Hitam"),
      *             @OA\Property(property="deskripsi", type="string", example="Deskripsi update"),
-     *             @OA\Property(property="gambar", type="string", example="motor_update.jpg")
+     *             @OA\Property(property="gambar", type="string", example="motor_update.jpg"),
+     *             @OA\Property(property="komunitas_id", type="integer", example=2)
      *         )
      *     ),
      *     @OA\Response(response=200, description="Data berhasil diupdate")
@@ -116,6 +119,7 @@ class InformasiKendaraanController extends Controller
             'warna' => 'string',
             'deskripsi' => 'nullable|string',
             'gambar' => 'nullable|string',
+            'komunitas_id' => 'nullable|exists:komunitas,id',
         ]);
 
         $motor->update($data);
@@ -136,5 +140,32 @@ class InformasiKendaraanController extends Controller
     {
         InformasiKendaraan::destroy($id);
         return response()->json(null, 204);
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/informasi-kendaraan/komunitas/{komunitas_id}",
+     *     tags={"InformasiKendaraan"},
+     *     summary="Ambil data motor berdasarkan komunitas",
+     *     security={{"ApiKeyAuth":{}}},
+     *     @OA\Parameter(
+     *         name="komunitas_id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Berhasil mengambil data berdasarkan komunitas"),
+     *     @OA\Response(response=404, description="Data tidak ditemukan")
+     * )
+     */
+    public function byKomunitas($komunitas_id)
+    {
+        $motorList = InformasiKendaraan::where('komunitas_id', $komunitas_id)->get();
+
+        if ($motorList->isEmpty()) {
+            return response()->json(['message' => 'Tidak ada data untuk komunitas ini'], 404);
+        }
+
+        return response()->json($motorList);
     }
 }

@@ -7,9 +7,6 @@ use App\Models\InformasiKendaraan;
 
 class InformasiKendaraanSeeder extends Seeder
 {
-    /**
-     * Jalankan seeding data.
-     */
     public function run(): void
     {
         InformasiKendaraan::create([
@@ -20,6 +17,7 @@ class InformasiKendaraanSeeder extends Seeder
             'warna' => 'Hitam',
             'deskripsi' => 'Motor custom bergaya cafe racer dengan mesin 250cc, performa tinggi dan desain minimalis.',
             'gambar' => 'gambar/cafe_racer_x.jpg',
+            'komunitas_id' => 1,
         ]);
 
         InformasiKendaraan::create([
@@ -30,6 +28,7 @@ class InformasiKendaraanSeeder extends Seeder
             'warna' => 'Merah',
             'deskripsi' => 'Motor chopper custom dengan rangka panjang dan mesin bertenaga besar, cocok untuk touring.',
             'gambar' => 'gambar/chopper_thunder.jpg',
+            'komunitas_id' => 2,
         ]);
 
         InformasiKendaraan::create([
@@ -40,6 +39,7 @@ class InformasiKendaraanSeeder extends Seeder
             'warna' => 'Hijau Army',
             'deskripsi' => 'Scrambler untuk petualang, tahan banting dan siap untuk medan offroad ringan.',
             'gambar' => 'gambar/scrambler_adventurer.jpg',
+            'komunitas_id' => 3,
         ]);
     }
 }

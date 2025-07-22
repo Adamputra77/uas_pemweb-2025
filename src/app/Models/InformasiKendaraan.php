@@ -9,9 +9,6 @@ class InformasiKendaraan extends Model
 {
     use HasFactory;
 
-    protected $table = 'informasi_kendaraans';
-
-    // Kolom yang boleh diisi massal (mass assignable)
     protected $fillable = [
         'nama_kendaraan',
         'merk',
@@ -20,5 +17,11 @@ class InformasiKendaraan extends Model
         'warna',
         'deskripsi',
         'gambar',
+        'komunitas_id',
     ];
+
+    public function komunitas()
+    {
+        return $this->belongsTo(Komunitas::class);
+    }
 }
